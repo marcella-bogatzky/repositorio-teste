@@ -1,5 +1,7 @@
-const CACHE_NAME = 'despensa-cache-v1';
-// Lista de arquivos essenciais para o app funcionar offline
+// ATUALIZADO: Mudamos o nome do cache para v2
+const CACHE_NAME = 'despensa-cache-v2';
+
+// Lista de arquivos essenciais
 const urlsToCache = [
   './',
   './index.html',
@@ -10,21 +12,19 @@ const urlsToCache = [
   'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js'
 ];
 
-// Evento 'install': Salva os arquivos no cache
+// Evento 'install': Salva os arquivos no novo cache
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Cache aberto');
+        console.log('Cache v2 aberto');
         return cache.addAll(urlsToCache);
       })
   );
 });
 
-// Evento 'fetch': Intercepta as requisições
+// Evento 'fetch': Responde com o cache
 self.addEventListener('fetch', event => {
-  // Tenta responder primeiro com o cache.
-  // Se falhar (ex: requisição de API), vai para a rede.
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -36,5 +36,23 @@ self.addEventListener('fetch', event => {
         return fetch(event.request);
       }
     )
+  );
+});
+
+// NOVO: Evento 'activate': Limpa os caches antigos
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME]; // Mantém apenas o cache v2
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            // Se o cache não for o v2, delete-o
+            console.log('Limpando cache antigo:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
 });
