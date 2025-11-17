@@ -199,17 +199,38 @@ document.addEventListener("DOMContentLoaded", () => {
         // PÊSSEGO GIRATÓRIO
         mappingItemList.innerHTML = '<option value="">🍑 Carregando...</option>';
         
-        const payload = { /* ... */ };
+        // CORRIGIDO: Payload agora inclui o modo e a senha
+        const payload = { 
+            modo: "getItens",
+            senha: passwordInput.value
+        };
         
         try {
             const result = await sendRequest(payload);
+            
+            // CORRIGIDO: Lógica para preencher a lista
             if (result.status === "success" && result.itens) {
-                // ... (código de popular a lista) ...
+                mappingItemList.innerHTML = ''; // Limpa o "Carregando..."
+                
+                if (result.itens.length === 0) {
+                     mappingItemList.innerHTML = '<option value="">Nenhum item no estoque</option>';
+                     return;
+                }
+                
+                mappingItemList.appendChild(new Option("Selecione uma categoria...", ""));
+                result.itens.forEach(item => {
+                    mappingItemList.appendChild(new Option(item, item));
+                });
             } else {
                 throw new Error(result.message || "Não foi possível carregar itens.");
             }
         } catch (error) {
-            // ... (código de erro) ...
+            // CORRIGIDO: Lógica de erro
+            console.error("Erro em fetchEstoqueItens:", error);
+            mappingItemList.innerHTML = `<option value="">Erro ao carregar</option>`;
+            showStatusMessage(`❌ ${error.message}`, true);
+            resetSendingLock();
+            hideMappingModal(); // Fecha o modal se a lista falhar
         }
     }
 
