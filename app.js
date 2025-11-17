@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // --- CONFIGURAÇÃO ---
-    const appsScriptUrl = "https://script.google.com/macros/s/AKfycbzMUsAasaYX8a0XKL_hGzPKIQC7Ub_Ep56vGtMGF_FjJPOpE5HPbwdOTBzRwgL3nvZQxg/exec"; 
+    const appsScriptUrl = "https://script.google.com/macros/s/AKfycby0f-uVPPeFV7S0gX1m9nxhmRwrKJKxxG8DoA4sWjNgp1END_ACGvaggUE8TowQJaxH/exec"; 
 
     // --- VARIÁVEIS DE ESTADO ---
     let currentMode = "add";
