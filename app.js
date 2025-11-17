@@ -55,6 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- LÓGICA DE NAVEGAÇÃO POR ABAS (MODIFICADA) ---
 
+    // --- LÓGICA DE NAVEGAÇÃO POR ABAS (MODIFICADA) ---
+
     function showTab(tabName) {
         currentActiveTab = tabName;
 
@@ -67,9 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showStatusMessage("Aponte para um código de barras");
 
             // Inicia a câmera do scanner
-            // A flag isScannerInitialized agora significa "câmera está ativa"
             if (!isScannerInitialized) {
-                // Chama .render() para ligar a câmera
                 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
                 isScannerInitialized = true;
             }
@@ -80,16 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
             secaoLista.classList.remove("hidden");
             navScanner.classList.remove("active");
             navLista.classList.add("active");
-            showStatusMessage("Pronto para sincronizar.");
+            // NOVO TEXTO ACOLHEDOR
+            showStatusMessage("Pronta para organizar a lista! ✨");
 
-            // Para a câmera do scanner para evitar duplicidade
+            // Para a câmera do scanner
             if (isScannerInitialized) {
                 html5QrcodeScanner.clear().then(() => {
-                    isScannerInitialized = false; // Marca que a câmera foi desligada
+                    isScannerInitialized = false;
                     console.log("Scanner parado com sucesso.");
                 }).catch(err => {
                     console.error("Falha ao parar o scanner.", err);
-                    // Força a flag para falso para tentar renderizar novamente na próxima vez
                     isScannerInitialized = false; 
                 });
             }
@@ -140,7 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 1. Função chamada pelo SCANNER (Modo: "add" / "remove")
     async function sendScanData(codigoLido) {
-        showStatusMessage("Enviando dados...", false);
+        // PÊSSEGO GIRATÓRIO
+        showStatusMessage("<span class='spinning-peach'>🍑</span> Enviando dados...", false);
         
         const payload = {
             codigo: codigoLido,
@@ -151,7 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const result = await sendRequest(payload);
             if (result.status === "success") {
-                showStatusMessage(`✅ ${result.item} ${currentMode === 'add' ? 'adicionado' : 'removido'} (Total: ${result.novaQuantidade})`, false);
+                // NOVO TEXTO DE SUCESSO
+                showStatusMessage(`Guardado! 🍑 (Total: ${result.novaQuantidade})`, false);
                 resetSendingLock();
             } else if (result.status === "not_mapped") {
                 showStatusMessage("❓ Item não reconhecido. Mapear...", true);
@@ -168,27 +170,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Função chamada pelo MODAL (Modo: "map")
     async function sendMappingData() {
-        const itemGenerico = mappingItemList.value;
-        const codigoLido = currentScannedCode;
+        // ... (código anterior) ...
+        if (!itemGenerico) { /* ... */ }
 
-        if (!itemGenerico) {
-            alert("Por favor, selecione um item da lista.");
-            return;
-        }
-
-        showStatusMessage("Mapeando e adicionando...", false);
+        // PÊSSEGO GIRATÓRIO
+        showStatusMessage("<span class='spinning-peach'>🍑</span> Mapeando e adicionando...", false);
         hideMappingModal();
 
-        const payload = {
-            codigo: codigoLido,
-            modo: "map",
-            itemGenerico: itemGenerico,
-            senha: passwordInput.value
-        };
+        const payload = { /* ... */ };
         try {
             const result = await sendRequest(payload);
             if (result.status === "success") {
-                showStatusMessage(`✅ ${result.item} mapeado e adicionado! (Total: ${result.novaQuantidade})`, false);
+                // NOVO TEXTO DE SUCESSO (Versão do Mapeamento)
+                showStatusMessage(`Guardado! 🍑 (Total: ${result.novaQuantidade})`, false);
             } else {
                 throw new Error(result.message || "Erro ao mapear.");
             }
@@ -202,51 +196,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3. Função chamada pelo MODAL (Modo: "getItens")
     async function fetchEstoqueItens() {
-        mappingItemList.innerHTML = '<option value="">Carregando...</option>';
+        // PÊSSEGO GIRATÓRIO
+        mappingItemList.innerHTML = '<option value="">🍑 Carregando...</option>';
         
-        const payload = {
-            modo: "getItens",
-            senha: passwordInput.value
-        };
+        const payload = { /* ... */ };
         
         try {
             const result = await sendRequest(payload);
             if (result.status === "success" && result.itens) {
-                mappingItemList.innerHTML = '';
-                if (result.itens.length === 0) {
-                     mappingItemList.innerHTML = '<option value="">Nenhum item no estoque</option>';
-                     return;
-                }
-                mappingItemList.appendChild(new Option("Selecione uma categoria...", ""));
-                result.itens.forEach(item => {
-                    mappingItemList.appendChild(new Option(item, item));
-                });
+                // ... (código de popular a lista) ...
             } else {
                 throw new Error(result.message || "Não foi possível carregar itens.");
             }
         } catch (error) {
-            console.error("Erro em fetchEstoqueItens:", error);
-            mappingItemList.innerHTML = `<option value="">Erro ao carregar</option>`;
-            showStatusMessage(`❌ ${error.message}`, true);
-            resetSendingLock();
-            hideMappingModal();
+            // ... (código de erro) ...
         }
     }
 
     // 4. Função chamada pela ABA LISTA (Modo: "syncNotion")
     async function handleSyncNotionClick() {
-        if (isSending) {
-            showStatusMessage("Aguarde, operação anterior em andamento...", true);
-            return;
-        }
+        if (isSending) { /* ... */ }
         
         isSending = true;
-        showStatusMessage("Sincronizando com o Notion...", false);
+        // PÊSSEGO GIRATÓRIO
+        showStatusMessage("<span class='spinning-peach'>🍑</span> Sincronizando com o Notion...", false);
 
-        const payload = {
-            modo: "syncNotion",
-            senha: passwordInput.value
-        };
+        const payload = { /* ... */ };
 
         try {
             const result = await sendRequest(payload);
@@ -325,38 +300,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- FUNÇÕES AUXILIARES ---
     
+    // --- FUNÇÕES AUXILIARES ---
+    
+    // ATUALIZADA: Usa .innerHTML para renderizar o <span> do pêssego
     function showStatusMessage(message, isError = false) {
         clearTimeout(messageTimer);
         
-        statusMsg.textContent = message;
+        statusMsg.innerHTML = message; // MUDANÇA: de .textContent para .innerHTML
         statusMsg.classList.remove('success', 'error'); 
         if (isError) {
             statusMsg.classList.add('error');
-        } else if (message) {
+        } else if (message.startsWith('Guardado!') || message.startsWith('✅')) {
              statusMsg.classList.add('success');
         }
 
         messageTimer = setTimeout(() => {
             if (!isSending) { 
                 if (currentActiveTab === 'scanner') {
-                    statusMsg.textContent = "Aponte para um código de barras";
+                    statusMsg.innerHTML = "Aponte para um código de barras";
                 } else {
-                    statusMsg.textContent = "Pronto para sincronizar.";
+                    // NOVO TEXTO ACOLHEDOR
+                    statusMsg.innerHTML = "Pronta para organizar a lista! ✨";
                 }
                 statusMsg.classList.remove('success', 'error');
             }
         }, 5000);
     }
     
+    // ATUALIZADA: Usa .innerHTML e os novos textos padrão
     function resetSendingLock(delay = 1000) {
         setTimeout(() => {
             isSending = false;
             currentScannedCode = null;
             if (currentActiveTab === 'scanner') {
-                 showStatusMessage("Aponte para um código de barras");
+                 statusMsg.innerHTML = "Aponte para um código de barras";
             } else {
-                 showStatusMessage("Pronto para sincronizar.");
+                 // NOVO TEXTO ACOLHEDOR
+                 statusMsg.innerHTML = "Pronta para organizar a lista! ✨";
             }
+            statusMsg.classList.remove('success', 'error');
         }, delay);
     }
 

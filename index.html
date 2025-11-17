@@ -11,12 +11,27 @@
     
     <link rel="apple-touch-icon" href="icon-192.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- ESTILO GERAL --- */
+        /* --- NOVO: Animação de Carregamento --- */
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .spinning-peach {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        /* --- ESTILO GERAL (TEMA PÊSSEGO) --- */
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #2c2c2c;
-            color: #f0f0f0;
+            font-family: 'Nunito', sans-serif;
+            background-color: #FFF7E8; /* Creme */
+            color: #5D4037; /* Marrom Escuro */
             margin: 0;
             padding: 20px;
             display: flex;
@@ -27,185 +42,178 @@
         }
         h1 {
             width: 100%;
-            font-weight: 600;
-            font-size: 2em; /* Corrigido de 2.em para 2em */
+            font-family: 'Fredoka One', cursive; /* Título Fofo */
+            font-weight: 400; /* Fredoka One já é bold */
+            font-size: 2.5em;
             margin-bottom: 30px;
-            color: #FFDAB9; /* Pêssego */
-            text-shadow: 0 0 15px rgba(255, 218, 185, 0.4);
+            color: #FF7A59; /* Pêssego Principal */
+            text-shadow: 0 2px 4px rgba(93, 64, 55, 0.2);
             text-align: center;
         }
 
-        /* --- NOVO: NAVEGAÇÃO POR ABAS --- */
+        /* --- NAVEGAÇÃO POR ABAS --- */
         .nav-tabs {
             width: 100%;
             max-width: 500px;
             display: flex;
             margin-bottom: 25px;
-            background-color: #3a3a3a;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
+            background-color: #EFEBE9; /* Bege Claro (Marrom de apoio) */
+            border-radius: 50px; /* BORDAS ARREDONDADAS */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 5px;
         }
         .nav-button {
             flex: 1;
-            padding: 18px 10px;
+            padding: 15px 10px;
             font-size: 1.1em;
-            font-weight: 600;
-            color: #aaa;
+            font-weight: 700;
+            color: #795548; /* Marrom Médio */
             background-color: transparent;
             border: none;
+            border-radius: 50px; /* BORDAS ARREDONDADAS */
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
         }
         .nav-button.active {
-            color: #FFDAB9;
-            background-color: #4a4a4a;
-            text-shadow: 0 0 10px rgba(255, 218, 185, 0.3);
+            color: white;
+            background-color: #FF7A59; /* Pêssego Principal */
+            text-shadow: none;
+            box-shadow: 0 2px 8px rgba(255, 122, 89, 0.4);
         }
 
-        /* --- NOVO: CONTÊINER DAS ABAS --- */
-        .tab-content {
-            width: 100%;
-            max-width: 500px;
-        }
-        .tab-pane {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .tab-pane.hidden {
-            display: none;
-        }
+        /* --- CONTÊINER DAS ABAS --- */
+        .tab-content { width: 100%; max-width: 500px; }
+        .tab-pane { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .tab-pane.hidden { display: none; }
 
-        /* --- ESTILOS ANTIGOS (AGORA DENTRO DAS ABAS) --- */
-        
-        /* "Janela" da câmera */
+        /* --- SEÇÃO DO SCANNER --- */
         #leitor {
             width: 100%;
             max-width: 500px;
-            border: 2px solid #555;
-            border-radius: 12px;
+            border: 3px solid #FFB7B2; /* Pêssego Claro */
+            border-radius: 24px; /* BORDAS BEM MAIS ARREDONDADAS */
             overflow: hidden;
             margin-bottom: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background-color: #3a3a3a;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background-color: #EFEBE9; /* Bege Claro */
         }
-        /* Botão principal de Ação */
+        /* Botão principal de Ação (Adicionar/Remover) */
         #modo-btn {
             width: 100%;
             max-width: 500px;
-            padding: 22px;
+            padding: 20px;
             font-size: 1.3em;
-            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
             border: none;
-            border-radius: 12px;
+            border-radius: 50px; /* BORDAS ARREDONDADAS */
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
         }
         /* Mensagem de feedback */
         #status-msg {
             margin-top: 10px;
             font-size: 1.1em;
-            color: #f0f0f0;
-            height: 30px; /* Altura fixa para não "pular" */
+            color: #5D4037; /* Marrom Escuro */
+            height: 30px; 
             text-align: center;
-            font-weight: 400;
+            font-weight: 600;
             transition: color 0.3s ease;
         }
         
-        /* Classes que o JavaScript vai adicionar ao botão */
+        /* Cores dos botões e status */
         .add-mode {
-            background: linear-gradient(135deg, #FF9A8B 0%, #FF6A88 100%);
+            background: linear-gradient(135deg, #FF7A59 0%, #FFB7B2 100%); /* Pêssego -> Rosa */
             color: white;
         }
-        .add-mode:hover {
-            transform: translateY(-2px);
-        }
+        .add-mode:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 122, 89, 0.4); }
         .remove-mode {
-            background: linear-gradient(135deg, #FF5F6D 0%, #FFC371 100%);
+            background: linear-gradient(135deg, #FFB7B2 0%, #FF7A59 100%); /* Rosa -> Pêssego */
             color: white;
         }
-        .remove-mode:hover {
-            transform: translateY(-2px);
-        }
-        /* Classes para as cores das mensagens de status */
+        .remove-mode:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 122, 89, 0.4); }
+
         #status-msg.success {
-            color: #82E0AA; /* Verde claro */
+            color: #00C896; /* Verde Menta */
         }
         #status-msg.error {
-            color: #F1948A; /* Vermelho claro */
+            color: #E94E79; /* Rosa/Vermelho (Erro) */
         }
 
-        /* Estilo para o campo de senha (agora usado nas duas abas) */
-        #secret-password-input {
-            width: 60%;
-            max-width: 500px;
-            padding: 15px 20px;
-            font-size: 1em;
-            border: 1px solid #555;
-            border-radius: 10px;
-            background-color: #3a3a3a;
-            color: #f0f0f0;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
-            transition: border-color 0.3s ease;
-            margin-top: 15px; /* Adicionado espaço acima */
-        }
-        #secret-password-input:focus {
-            outline: none;
-            border-color: #FFDAB9; /* Borda pêssego no foco */
-            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 218, 185, 0.5);
-        }
-
-        /* --- NOVO: ESTILO DA ABA "LISTA DE COMPRAS" --- */
+        /* --- ABA "LISTA DE COMPRAS" --- */
         #secao-lista p {
             font-size: 1.1em;
             text-align: center;
             margin-bottom: 25px;
         }
-        /* Botão genérico para a nova aba (copia estilo do #modo-btn) */
         .lista-btn {
             width: 100%;
             max-width: 500px;
-            padding: 22px;
+            padding: 20px;
             font-size: 1.3em;
-            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
             border: none;
-            border-radius: 12px;
+            border-radius: 50px; /* BORDAS ARREDONDADAS */
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             color: white;
-            text-decoration: none; /* Para o link <a> */
+            text-decoration: none; 
             text-align: center;
-            box-sizing: border-box; /* Para o link <a> */
+            box-sizing: border-box; 
+            text-transform: uppercase;
         }
+        .lista-btn:hover { transform: translateY(-2px); }
         
-        /* Cor específica Botão Sincronizar (azulado) */
+        /* COR NOVA: Botão Sincronizar (Pêssego) */
         #btn-sincronizar-notion {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        #btn-sincronizar-notion:hover {
-             transform: translateY(-2px);
+            background: linear-gradient(135deg, #FF7A59 0%, #FFB7B2 100%);
+            box-shadow: 0 6px 20px rgba(255, 122, 89, 0.4);
         }
 
-        /* Cor específica Botão Ver Lista (cinza escuro) */
+        /* COR NOVA: Botão Ver Lista (Marrom Escuro) */
         #btn-ver-notion {
-             background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-        }
-        #btn-ver-notion:hover {
-             transform: translateY(-2px);
+             background: #5D4037; /* Marrom Escuro */
         }
 
+        /* COR NOVA: Botão Instalar (Verde Menta) */
+        #btn-instalar-pwa {
+            background: linear-gradient(135deg, #00C896 0%, #00BFA5 100%);
+            margin-top: 10px;
+        }
 
-        /* --- Estilo do Modal de Mapeamento (Sem alterações) --- */
+        /* --- CAMPO DE SENHA --- */
+        #secret-password-input {
+            width: 60%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 1em;
+            font-family: 'Nunito', sans-serif;
+            border: 2px solid #EFEBE9; /* Bege Claro */
+            border-radius: 50px; /* BORDAS ARREDONDADAS */
+            background-color: #EFEBE9;
+            color: #5D4037;
+            box-shadow: none;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            text-align: center;
+        }
+        #secret-password-input:focus {
+            outline: none;
+            border-color: #FFB7B2; /* Pêssego Claro */
+            background-color: #FFF7E8;
+            box-shadow: 0 0 10px rgba(255, 122, 89, 0.2);
+        }
+
+        /* --- MODAL DE MAPEAMENTO --- */
         .modal-overlay {
+            /* ... (sem mudanças, mas poderia ser estilizado) ... */
             display: none;
             position: fixed;
             z-index: 100;
@@ -214,34 +222,34 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(93, 64, 55, 0.6); /* Fundo Marrom translúcido */
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             align-items: center;
             justify-content: center;
         }
         .modal-content {
-            background-color: #3a3a3a;
+            background-color: #FFF7E8; /* Creme */
             margin: auto;
             padding: 25px;
-            border: 1px solid #555;
-            border-radius: 12px;
+            border: none;
+            border-radius: 24px; /* BORDAS BEM MAIS ARREDONDADAS */
             width: 90%;
             max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        .modal-content h2 { margin: 0; color: #FFDAB9; font-size: 1.4em; text-align: center; }
-        .modal-content p { margin: 0; font-size: 0.9em; color: #f0f0f0; text-align: center; }
+        .modal-content h2 { margin: 0; color: #FF7A59; font-size: 1.4em; text-align: center; }
+        .modal-content p { margin: 0; font-size: 0.9em; color: #5D4037; text-align: center; }
         #mapping-barcode {
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.1em;
-            color: #FFC371;
-            background-color: #2c2c2c;
+            color: #FF7A59;
+            background-color: #EFEBE9;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 12px;
             text-align: center;
             word-break: break-all;
         }
@@ -249,40 +257,33 @@
             width: 100%;
             padding: 15px;
             font-size: 1em;
-            font-family: 'Montserrat', sans-serif;
-            border: 1px solid #555;
-            border-radius: 10px;
-            background-color: #4a4a4a;
-            color: #f0f0f0;
+            font-family: 'Nunito', sans-serif;
+            border: 2px solid #EFEBE9;
+            border-radius: 12px;
+            background-color: #EFEBE9;
+            color: #5D4037;
         }
-        #mapping-item-list:focus { outline: none; border-color: #FFDAB9; }
+        #mapping-item-list:focus { outline: none; border-color: #FFB7B2; }
         .modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
         .modal-buttons button {
             flex: 1;
             padding: 15px;
             font-size: 1.1em;
-            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px; /* BORDAS ARREDONDADAS */
             cursor: pointer;
             transition: all 0.2s ease;
+            text-transform: uppercase;
         }
         #mapping-associate-btn {
-            background: linear-gradient(135deg, #FF9A8B 0%, #FF6A88 100%);
+            background: linear-gradient(135deg, #FF7A59 0%, #FFB7B2 100%);
             color: white;
         }
         #mapping-associate-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-        #mapping-cancel-btn { background-color: #666; color: #f0f0f0; }
-        #mapping-cancel-btn:hover { background-color: #777; }
-
-        /* Cor específica Botão Instalar (verde) */
-        #btn-instalar-pwa {
-            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-            margin-top: 10px; /* Espaço extra */
-        }
-        #btn-instalar-pwa:hover {
-            transform: translateY(-2px);
-        }
+        #mapping-cancel-btn { background-color: #EFEBE9; color: #795548; }
+        #mapping-cancel-btn:hover { background-color: #D7CCC8; }
         
     </style>
 </head>
@@ -307,7 +308,7 @@
             <p>Sincronize sua "Lista de Compras" da planilha com o Notion.</p>
             
             <button id="btn-sincronizar-notion" class="lista-btn">
-                Sincronizar Lista Agora
+                Sincronizar Lista
             </button>
             
             <a id="btn-ver-notion" class="lista-btn" href="https://www.notion.so/Lista-de-Compras-1-2adc5ed80386805cabfad46c1a929379" target="_blank">
